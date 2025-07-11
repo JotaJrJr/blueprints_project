@@ -20,7 +20,6 @@ class HomeViewModel extends ChangeNotifier {
   bool get isConnectingMode => _isConnectingMode;
   String? get currentSelectedNodeId => _currentSelectedNodeId;
 
-  /// Handle taps on a node: either select or connect nodes when in connect-mode
   void handleNodeTap(String nodeId) {
     if (!_isConnectingMode) {
       selectNode(nodeId);
@@ -28,17 +27,14 @@ class HomeViewModel extends ChangeNotifier {
     }
 
     if (_pendingConnectionStart == null) {
-      // First click marks start node
       _pendingConnectionStart = nodeId;
     } else {
-      // Second click creates edge and resets pending start
       addEdge(_pendingConnectionStart!, nodeId);
       _pendingConnectionStart = null;
     }
     notifyListeners();
   }
 
-  /// Toggle connection mode
   void setConnectingMode(bool on) {
     _isConnectingMode = on;
     _pendingConnectionStart = null;
@@ -65,7 +61,6 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // --- Node and Edge Management ---
   void addNodeAt(Offset position, NodeType type, Color color) {
     final node = NodeModel(id: UniqueKey().toString(), position: position, type: type, color: color);
     nodes.add(node);

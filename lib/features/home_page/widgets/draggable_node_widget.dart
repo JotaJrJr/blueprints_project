@@ -38,9 +38,35 @@ class _DraggableNodeWidgetState extends State<DraggableNodeWidget> {
   void didUpdateWidget(covariant DraggableNodeWidget old) {
     super.didUpdateWidget(old);
 
-    if (old.node.id != widget.node.id || old.node.fields.length != widget.node.fields.length) {
+    final oldNode = old.node;
+    final newNode = widget.node;
+
+    if (oldNode.id != newNode.id) {
       _disposeControllers();
       _initControllers();
+      return;
+    }
+
+    if (oldNode.fields.length != newNode.fields.length) {
+      _disposeControllers();
+      _initControllers();
+      return;
+    }
+
+    for (var i = 0; i < newNode.fields.length; i++) {
+      final desired = newNode.fields[i];
+      final ctrl = _fieldControllers[i];
+      if (ctrl.text != desired) {
+        final oldPos = ctrl.selection;
+        ctrl.text = desired;
+        ctrl.selection = oldPos;
+      }
+    }
+
+    if (_titleController.text != newNode.title) {
+      final oldPos = _titleController.selection;
+      _titleController.text = newNode.title;
+      _titleController.selection = oldPos;
     }
   }
 

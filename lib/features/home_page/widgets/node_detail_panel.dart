@@ -1,11 +1,11 @@
-import 'package:blueprints_project/features/home_page/widgets/hold_to_delete_button_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../common/models/node_model.dart';
+import 'package:blueprints_project/features/home_page/widgets/hold_to_delete_button_widget.dart';
 
 typedef NodeNavigate = void Function(String targetNodeId);
 typedef AttributeUpdate = void Function(String title, List<String> fields);
 
-class NodeDetailPanel extends StatefulWidget {
+class NodeDetailPanel extends StatelessWidget {
   final NodeModel? selectedNode;
   final List<NodeModel> allNodes;
   final NodeNavigate onPrev;
@@ -22,69 +22,18 @@ class NodeDetailPanel extends StatefulWidget {
   });
 
   @override
-  State<NodeDetailPanel> createState() => _NodeDetailPanelState();
-}
-
-class _NodeDetailPanelState extends State<NodeDetailPanel> {
-  late TextEditingController _titleController;
-  late List<TextEditingController> _fieldControllers;
-
-  @override
-  void initState() {
-    super.initState();
-    _initControllers();
-  }
-
-  @override
-  void didUpdateWidget(covariant NodeDetailPanel oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.selectedNode != oldWidget.selectedNode) {
-      _disposeControllers();
-      _initControllers();
-    }
-  }
-
-  void _initControllers() {
-    final node = widget.selectedNode;
-    _titleController = TextEditingController(text: node?.title ?? '')..addListener(_onTitleChanged);
-
-    _fieldControllers = (node?.fields ?? []).map((f) => TextEditingController(text: f)).toList();
-    for (var c in _fieldControllers) {
-      c.addListener(_onFieldsChanged);
-    }
-  }
-
-  void _disposeControllers() {
-    _titleController.dispose();
-    for (var c in _fieldControllers) {
-      c.dispose();
-    }
-  }
-
-  void _onTitleChanged() {
-    widget.onUpdate(_titleController.text, _fieldControllers.map((c) => c.text).toList());
-  }
-
-  void _onFieldsChanged() {
-    widget.onUpdate(_titleController.text, _fieldControllers.map((c) => c.text).toList());
-  }
-
-  @override
-  void dispose() {
-    _disposeControllers();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final node = widget.selectedNode;
-    if (node == null) {
+    if (selectedNode == null) {
       return Container(width: 250, color: Colors.grey.shade50, child: const Center(child: Text('No node selected')));
     }
 
-    final index = widget.allNodes.indexWhere((n) => n.id == node.id);
+    final node = selectedNode!;
+    final index = allNodes.indexWhere((n) => n.id == node.id);
     final hasPrev = index > 0;
-    final hasNext = index < widget.allNodes.length - 1;
+    final hasNext = index < allNodes.length - 1;
+
+    final title = node.title;
+    final fields = List<String>.from(node.fields);
 
     return Container(
       width: 250,
@@ -97,16 +46,17 @@ class _NodeDetailPanelState extends State<NodeDetailPanel> {
             children: [
               IconButton(
                 icon: const Icon(Icons.arrow_left),
-                onPressed: hasPrev ? () => widget.onPrev(widget.allNodes[index - 1].id) : null,
+                onPressed: hasPrev ? () => onPrev(allNodes[index - 1].id) : null,
               ),
-              Text('Node ${index + 1}/${widget.allNodes.length}', style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text('Node ${index + 1}/${allNodes.length}', style: const TextStyle(fontWeight: FontWeight.bold)),
               IconButton(
                 icon: const Icon(Icons.arrow_right),
-                onPressed: hasNext ? () => widget.onNext(widget.allNodes[index + 1].id) : null,
+                onPressed: hasNext ? () => onNext(allNodes[index + 1].id) : null,
               ),
             ],
           ),
           const SizedBox(height: 8),
+
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(8),
@@ -119,7 +69,7 @@ class _NodeDetailPanelState extends State<NodeDetailPanel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  node.title.isEmpty ? 'Node' : node.title,
+                  title.isEmpty ? 'Untitled' : title,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
@@ -128,47 +78,65 @@ class _NodeDetailPanelState extends State<NodeDetailPanel> {
             ),
           ),
           const SizedBox(height: 16),
+
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Title', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text('Fields', style: TextStyle(fontWeight: FontWeight.bold)),
-                  for (var i = 0; i < _fieldControllers.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _fieldControllers[i],
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                labelText: 'Field ${i + 1}',
-                              ),
-                              onChanged: (_) => _onFieldsChanged(),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const Text('Title', style: TextStyle(fontWeight: FontWeight.bold)),
+                TextFormField(
+                  key: ValueKey('title-${node.id}-$title'),
+                  initialValue: title,
+                  decoration: const InputDecoration(border: OutlineInputBorder()),
+                  onChanged: (newTitle) {
+                    onUpdate(newTitle, fields);
+                  },
+                ),
+                const SizedBox(height: 12),
+
+                const Text('Fields', style: TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                for (var i = 0; i < fields.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            key: ValueKey('field-${node.id}-$i-${fields[i]}'),
+                            initialValue: fields[i],
+                            decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              labelText: 'Field ${i + 1}',
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          HoldToDeleteButtonWidget(
-                            onDelete: () {
-                              setState(() {
-                                _fieldControllers.removeAt(i);
-                              });
-                              _onFieldsChanged();
+                            onChanged: (newValue) {
+                              final newFields = List<String>.from(fields)..[i] = newValue;
+                              onUpdate(title, newFields);
                             },
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 8),
+                        HoldToDeleteButtonWidget(
+                          onDelete: () {
+                            final newFields = List<String>.from(fields)..removeAt(i);
+                            onUpdate(title, newFields);
+                          },
+                        ),
+                      ],
                     ),
-                ],
-              ),
+                  ),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () {
+                      final newFields = List<String>.from(fields)..add('');
+                      onUpdate(title, newFields);
+                    },
+                    child: const Text('+ Add Field'),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
