@@ -1,0 +1,1 @@
+enum CondicaoIfNode { isEqual, isNotEqual }

@@ -1,0 +1,1 @@
+enum DirecaoElemento { entrada, saida }

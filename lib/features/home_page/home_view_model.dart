@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../common/enums/node_type.dart';
 import '../../common/models/edge_model.dart';
 import '../../common/models/node_model.dart';
+import '../../external/class.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final List<NodeModel> nodes = [];
@@ -19,6 +22,62 @@ class HomeViewModel extends ChangeNotifier {
 
   bool get isConnectingMode => _isConnectingMode;
   String? get currentSelectedNodeId => _currentSelectedNodeId;
+
+  NodeType _convertNodeType(TipoNode tipo) {
+    switch (tipo) {
+      case TipoNode.toLower:
+        return NodeType.entity;
+      case TipoNode.trim:
+        return NodeType.entity;
+      case TipoNode.regex:
+        return NodeType.interface;
+      case TipoNode.textoEstatico:
+        return NodeType.abstractClass;
+      case TipoNode.print:
+        return NodeType.interface;
+      case TipoNode.ifNode:
+        return NodeType.abstractClass;
+      default:
+        return NodeType.entity;
+    }
+  }
+
+  void initializeFromBlueprint(Formulario? form) {
+    if (form == null) return;
+
+    nodes.clear();
+    edges.clear();
+
+    for (final element in form.elements) {
+      nodes.add(
+        NodeModel(
+          id: element.id,
+          title: element.nome,
+          type: NodeType.entity,
+          position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
+          color: Colors.blue,
+        ),
+      );
+    }
+
+    for (final node in form.blueprint.nodes) {
+      nodes.add(
+        NodeModel(
+          id: node.id,
+          title: node.nome ?? node.tipo.name,
+          type: _convertNodeType(node.tipo),
+          position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
+          color: Colors.green,
+        ),
+      );
+    }
+
+    for (final conexao in form.blueprint.conexoes) {
+      edges.add(EdgeModel(fromNodeId: conexao.origem, toNodeId: conexao.destino));
+    }
+
+    notifyListeners();
+  }
 
   void handleNodeTap(String nodeId) {
     if (!_isConnectingMode) {

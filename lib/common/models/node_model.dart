@@ -9,6 +9,9 @@ class NodeModel {
   String title;
   List<String> fields;
   Color color;
+  Map<String, dynamic>? config; // Store node-specific configuration
+  List<String> inputs = []; // Input handles
+  List<String> outputs = [];
 
   NodeModel({
     required this.id,
@@ -18,5 +21,8 @@ class NodeModel {
     this.title = '',
     this.fields = const [],
     this.color = Colors.lightBlueAccent,
+    this.config,
+    this.inputs = const [],
+    this.outputs = const [],
   });
 }

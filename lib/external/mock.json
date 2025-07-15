@@ -1,0 +1,748 @@
+{
+  "objectName": "Usuario",
+  "id": "460d711d-b49f-466a-a004-08a4a8912fb3",
+  "nome": "Criar Usuário",
+  "tipoElemento": "dado",
+  "direcao": "entrada",
+  "isRemovable": false,
+  "elements": [
+    {
+      "id": "48bcd719-f164-4ca4-96ba-b0866a9119b1",
+      "nome": "Nome",
+      "tipoElemento": "dado",
+      "direcao": "saida",
+      "isRemovable": false,
+      "elements": [
+        {
+          "id": "afafe4e0-a0ba-4230-8e0f-a6c6a58066b4",
+          "nome": "Input",
+          "tipoElemento": "dado",
+          "direcao": "saida",
+          "dado": "string",
+          "isRemovable": true
+        },
+        {
+          "id": "f788cd9f-b413-4d72-b84b-eeb9324f577c",
+          "nome": "Output",
+          "tipoElemento": "dado",
+          "direcao": "entrada",
+          "dado": "string",
+          "isRemovable": true
+        }
+      ],
+      "tipo": "textoCurto",
+      "blueprint": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "a4a8da5f-6ca9-44cc-bb46-c1041db3b515",
+            "origemId": "afafe4e0-a0ba-4230-8e0f-a6c6a58066b4",
+            "destinoId": "f788cd9f-b413-4d72-b84b-eeb9324f577c"
+          },
+          {
+            "id": "51367497-e0ac-47fb-a3d3-85e88c712b69",
+            "origemId": "f788cd9f-b413-4d72-b84b-eeb9324f577c",
+            "destinoId": "48bcd719-f164-4ca4-96ba-b0866a9119b1"
+          }
+        ]
+      },
+      "obrigatorio": true,
+      "blueprintCampo": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "a4a8da5f-6ca9-44cc-bb46-c1041db3b515",
+            "origemId": "afafe4e0-a0ba-4230-8e0f-a6c6a58066b4",
+            "destinoId": "f788cd9f-b413-4d72-b84b-eeb9324f577c"
+          },
+          {
+            "id": "51367497-e0ac-47fb-a3d3-85e88c712b69",
+            "origemId": "f788cd9f-b413-4d72-b84b-eeb9324f577c",
+            "destinoId": "48bcd719-f164-4ca4-96ba-b0866a9119b1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "6a9e1688-efff-45c6-95a1-23c7f4ab1cd8",
+      "nome": "Email",
+      "tipoElemento": "dado",
+      "direcao": "saida",
+      "isRemovable": false,
+      "elements": [
+        {
+          "id": "bb77e4f8-0d3e-4867-b04b-fd4daa75db02",
+          "nome": "Input",
+          "tipoElemento": "dado",
+          "direcao": "saida",
+          "dado": "string",
+          "isRemovable": true
+        },
+        {
+          "id": "90e62e60-63ed-49ef-841b-f3728bba4619",
+          "nome": "Output",
+          "tipoElemento": "dado",
+          "direcao": "entrada",
+          "dado": "string",
+          "isRemovable": true
+        }
+      ],
+      "tipo": "textoCurto",
+      "blueprint": {
+        "nodes": [
+          {
+            "id": "db0d0886-baec-4daa-a16f-7c63bab8c511",
+            "tipo": "toLower",
+            "elementos": [
+              {
+                "id": "cfff0b76-000a-4907-838f-8370c00da247",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "9d45f61c-8cfc-424c-8186-b284483830ff",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ]
+          },
+          {
+            "id": "9fe0152f-985c-44c6-a68d-c2735fc4f24a",
+            "tipo": "trim",
+            "elementos": [
+              {
+                "id": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "d297f98f-ba5a-47ba-9c43-3180a9208c7a",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ],
+            "start": true,
+            "end": true
+          },
+          {
+            "id": "56defb78-584b-4160-99eb-62935151a5ec",
+            "tipo": "regex",
+            "elementos": [
+              {
+                "id": "4c84faf5-5215-41d6-87de-6ab2607ee5ea",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "9a1fdc24-2e1d-415e-b6af-412676873632",
+                "nome": "Sucesso",
+                "tipoElemento": "evento",
+                "direcao": "saida",
+                "isRemovable": true
+              },
+              {
+                "id": "b5d5e585-a522-46cf-af99-a9cc1a0df746",
+                "nome": "Falha",
+                "tipoElemento": "evento",
+                "direcao": "saida",
+                "isRemovable": true
+              }
+            ],
+            "regex": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+          },
+          {
+            "id": "4dfcb7c6-36db-454a-b2b3-a65fa20ae33d",
+            "nome": "Mensagem de erro do e-mail",
+            "tipo": "textoEstatico",
+            "elementos": [
+              {
+                "id": "d3909375-c663-4a5e-afc9-7fe7fa797a20",
+                "nome": "Texto",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ],
+            "valor": "E-mail inválido"
+          },
+          {
+            "id": "ff50bae5-ede5-4737-972b-42d070faa601",
+            "nome": "Exibir erro do e-mail",
+            "tipo": "print",
+            "elementos": [
+              {
+                "id": "fb76ebb0-159d-4bc6-a8cd-0ced0db0dcb7",
+                "nome": "Exibir",
+                "tipoElemento": "evento",
+                "direcao": "entrada",
+                "isRemovable": true
+              },
+              {
+                "id": "bcf12662-460a-4d38-9d08-205098c88bb8",
+                "nome": "Texto",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ]
+          }
+        ],
+        "conexoes": [
+          {
+            "id": "49932479-8c05-4291-8c14-8c12024cdffa",
+            "origemId": "bb77e4f8-0d3e-4867-b04b-fd4daa75db02",
+            "destinoId": "90e62e60-63ed-49ef-841b-f3728bba4619"
+          },
+          {
+            "id": "2dde522e-74a6-4282-a91e-36026d195a03",
+            "origemId": "90e62e60-63ed-49ef-841b-f3728bba4619",
+            "destinoId": "6a9e1688-efff-45c6-95a1-23c7f4ab1cd8"
+          },
+          {
+            "id": "06252777-e784-4d75-85cf-960726dd7eb8",
+            "origemId": "cfff0b76-000a-4907-838f-8370c00da247",
+            "destinoId": "9d45f61c-8cfc-424c-8186-b284483830ff"
+          },
+          {
+            "id": "b8d979d9-2e8a-4d38-a222-bd0d4511399c",
+            "origemId": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a",
+            "destinoId": "d297f98f-ba5a-47ba-9c43-3180a9208c7a"
+          },
+          {
+            "id": "b465a1d4-1422-4153-b17c-1369397b596f",
+            "origemId": "4c84faf5-5215-41d6-87de-6ab2607ee5ea",
+            "destinoId": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8"
+          },
+          {
+            "id": "7797bff3-ae6c-4028-9d37-166d17ebbbed",
+            "origemId": "bb77e4f8-0d3e-4867-b04b-fd4daa75db02",
+            "destinoId": "cfff0b76-000a-4907-838f-8370c00da247"
+          },
+          {
+            "id": "2dce97ae-8466-4e7c-a9f1-6f2dc1be345f",
+            "origemId": "9d45f61c-8cfc-424c-8186-b284483830ff",
+            "destinoId": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a"
+          },
+          {
+            "id": "a2aab9c0-c9aa-4428-8138-7cf1e63157a9",
+            "origemId": "d297f98f-ba5a-47ba-9c43-3180a9208c7a",
+            "destinoId": "4c84faf5-5215-41d6-87de-6ab2607ee5ea"
+          },
+          {
+            "id": "baaeb03a-2726-4d2e-be8b-45ea208ea0c6",
+            "origemId": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8",
+            "destinoId": "90e62e60-63ed-49ef-841b-f3728bba4619"
+          },
+          {
+            "id": "ad92e437-bdf6-4fb4-bbd3-7bbd5da3c4bc",
+            "origemId": "d3909375-c663-4a5e-afc9-7fe7fa797a20",
+            "destinoId": "bcf12662-460a-4d38-9d08-205098c88bb8"
+          },
+          {
+            "id": "45b8cf02-91cf-4640-a000-7e144b82987d",
+            "origemId": "b5d5e585-a522-46cf-af99-a9cc1a0df746",
+            "destinoId": "fb76ebb0-159d-4bc6-a8cd-0ced0db0dcb7"
+          }
+        ]
+      },
+      "obrigatorio": true,
+      "blueprintCampo": {
+        "nodes": [
+          {
+            "id": "db0d0886-baec-4daa-a16f-7c63bab8c511",
+            "tipo": "toLower",
+            "elementos": [
+              {
+                "id": "cfff0b76-000a-4907-838f-8370c00da247",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "9d45f61c-8cfc-424c-8186-b284483830ff",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ]
+          },
+          {
+            "id": "9fe0152f-985c-44c6-a68d-c2735fc4f24a",
+            "tipo": "trim",
+            "elementos": [
+              {
+                "id": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "d297f98f-ba5a-47ba-9c43-3180a9208c7a",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ],
+            "start": true,
+            "end": true
+          },
+          {
+            "id": "56defb78-584b-4160-99eb-62935151a5ec",
+            "tipo": "regex",
+            "elementos": [
+              {
+                "id": "4c84faf5-5215-41d6-87de-6ab2607ee5ea",
+                "nome": "Input",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8",
+                "nome": "Output",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              },
+              {
+                "id": "9a1fdc24-2e1d-415e-b6af-412676873632",
+                "nome": "Sucesso",
+                "tipoElemento": "evento",
+                "direcao": "saida",
+                "isRemovable": true
+              },
+              {
+                "id": "b5d5e585-a522-46cf-af99-a9cc1a0df746",
+                "nome": "Falha",
+                "tipoElemento": "evento",
+                "direcao": "saida",
+                "isRemovable": true
+              }
+            ],
+            "regex": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+          },
+          {
+            "id": "4dfcb7c6-36db-454a-b2b3-a65fa20ae33d",
+            "nome": "Mensagem de erro do e-mail",
+            "tipo": "textoEstatico",
+            "elementos": [
+              {
+                "id": "d3909375-c663-4a5e-afc9-7fe7fa797a20",
+                "nome": "Texto",
+                "tipoElemento": "dado",
+                "direcao": "saida",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ],
+            "valor": "E-mail inválido"
+          },
+          {
+            "id": "ff50bae5-ede5-4737-972b-42d070faa601",
+            "nome": "Exibir erro do e-mail",
+            "tipo": "print",
+            "elementos": [
+              {
+                "id": "fb76ebb0-159d-4bc6-a8cd-0ced0db0dcb7",
+                "nome": "Exibir",
+                "tipoElemento": "evento",
+                "direcao": "entrada",
+                "isRemovable": true
+              },
+              {
+                "id": "bcf12662-460a-4d38-9d08-205098c88bb8",
+                "nome": "Texto",
+                "tipoElemento": "dado",
+                "direcao": "entrada",
+                "dado": "string",
+                "isRemovable": true
+              }
+            ]
+          }
+        ],
+        "conexoes": [
+          {
+            "id": "49932479-8c05-4291-8c14-8c12024cdffa",
+            "origemId": "bb77e4f8-0d3e-4867-b04b-fd4daa75db02",
+            "destinoId": "90e62e60-63ed-49ef-841b-f3728bba4619"
+          },
+          {
+            "id": "2dde522e-74a6-4282-a91e-36026d195a03",
+            "origemId": "90e62e60-63ed-49ef-841b-f3728bba4619",
+            "destinoId": "6a9e1688-efff-45c6-95a1-23c7f4ab1cd8"
+          },
+          {
+            "id": "06252777-e784-4d75-85cf-960726dd7eb8",
+            "origemId": "cfff0b76-000a-4907-838f-8370c00da247",
+            "destinoId": "9d45f61c-8cfc-424c-8186-b284483830ff"
+          },
+          {
+            "id": "b8d979d9-2e8a-4d38-a222-bd0d4511399c",
+            "origemId": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a",
+            "destinoId": "d297f98f-ba5a-47ba-9c43-3180a9208c7a"
+          },
+          {
+            "id": "b465a1d4-1422-4153-b17c-1369397b596f",
+            "origemId": "4c84faf5-5215-41d6-87de-6ab2607ee5ea",
+            "destinoId": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8"
+          },
+          {
+            "id": "7797bff3-ae6c-4028-9d37-166d17ebbbed",
+            "origemId": "bb77e4f8-0d3e-4867-b04b-fd4daa75db02",
+            "destinoId": "cfff0b76-000a-4907-838f-8370c00da247"
+          },
+          {
+            "id": "2dce97ae-8466-4e7c-a9f1-6f2dc1be345f",
+            "origemId": "9d45f61c-8cfc-424c-8186-b284483830ff",
+            "destinoId": "5ef9bb8d-85d9-464f-a6b5-016416f20e7a"
+          },
+          {
+            "id": "a2aab9c0-c9aa-4428-8138-7cf1e63157a9",
+            "origemId": "d297f98f-ba5a-47ba-9c43-3180a9208c7a",
+            "destinoId": "4c84faf5-5215-41d6-87de-6ab2607ee5ea"
+          },
+          {
+            "id": "baaeb03a-2726-4d2e-be8b-45ea208ea0c6",
+            "origemId": "6e02876b-c81a-4191-bcc0-77af0e5f4ed8",
+            "destinoId": "90e62e60-63ed-49ef-841b-f3728bba4619"
+          },
+          {
+            "id": "ad92e437-bdf6-4fb4-bbd3-7bbd5da3c4bc",
+            "origemId": "d3909375-c663-4a5e-afc9-7fe7fa797a20",
+            "destinoId": "bcf12662-460a-4d38-9d08-205098c88bb8"
+          },
+          {
+            "id": "45b8cf02-91cf-4640-a000-7e144b82987d",
+            "origemId": "b5d5e585-a522-46cf-af99-a9cc1a0df746",
+            "destinoId": "fb76ebb0-159d-4bc6-a8cd-0ced0db0dcb7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "9aba8913-5903-4cbe-8b3d-2e495be84772",
+      "nome": "Senha",
+      "tipoElemento": "dado",
+      "direcao": "saida",
+      "isRemovable": false,
+      "elements": [
+        {
+          "id": "172e5028-c778-4c2b-b8a4-5bc9c3aff9bd",
+          "nome": "Input",
+          "tipoElemento": "dado",
+          "direcao": "saida",
+          "dado": "string",
+          "isRemovable": true
+        },
+        {
+          "id": "cc42b06b-6e20-4800-ad26-b91902b511f6",
+          "nome": "Output",
+          "tipoElemento": "dado",
+          "direcao": "entrada",
+          "dado": "string",
+          "isRemovable": true
+        }
+      ],
+      "tipo": "textoCurto",
+      "blueprint": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "1b521948-4f61-4420-a09c-4ff2077630ce",
+            "origemId": "172e5028-c778-4c2b-b8a4-5bc9c3aff9bd",
+            "destinoId": "cc42b06b-6e20-4800-ad26-b91902b511f6"
+          },
+          {
+            "id": "fb6919b8-95a2-4163-b35c-6e23d10ed08a",
+            "origemId": "cc42b06b-6e20-4800-ad26-b91902b511f6",
+            "destinoId": "9aba8913-5903-4cbe-8b3d-2e495be84772"
+          }
+        ]
+      },
+      "obrigatorio": true,
+      "blueprintCampo": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "1b521948-4f61-4420-a09c-4ff2077630ce",
+            "origemId": "172e5028-c778-4c2b-b8a4-5bc9c3aff9bd",
+            "destinoId": "cc42b06b-6e20-4800-ad26-b91902b511f6"
+          },
+          {
+            "id": "fb6919b8-95a2-4163-b35c-6e23d10ed08a",
+            "origemId": "cc42b06b-6e20-4800-ad26-b91902b511f6",
+            "destinoId": "9aba8913-5903-4cbe-8b3d-2e495be84772"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce234e93-ad7d-44a7-9b9e-254118041b28",
+      "nome": "Repetir Senha",
+      "tipoElemento": "dado",
+      "direcao": "saida",
+      "isRemovable": false,
+      "elements": [
+        {
+          "id": "46a2c4f0-ce66-4537-b9d7-91d38b9a8483",
+          "nome": "Input",
+          "tipoElemento": "dado",
+          "direcao": "saida",
+          "dado": "string",
+          "isRemovable": true
+        },
+        {
+          "id": "3d25bb37-4094-4808-ab0f-87fc669482e9",
+          "nome": "Output",
+          "tipoElemento": "dado",
+          "direcao": "entrada",
+          "dado": "string",
+          "isRemovable": true
+        }
+      ],
+      "tipo": "textoCurto",
+      "blueprint": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "ab172247-db80-4688-b166-78b057d6e71e",
+            "origemId": "46a2c4f0-ce66-4537-b9d7-91d38b9a8483",
+            "destinoId": "3d25bb37-4094-4808-ab0f-87fc669482e9"
+          },
+          {
+            "id": "9f0b519c-c00b-48d1-a1e7-825495638925",
+            "origemId": "3d25bb37-4094-4808-ab0f-87fc669482e9",
+            "destinoId": "ce234e93-ad7d-44a7-9b9e-254118041b28"
+          }
+        ]
+      },
+      "obrigatorio": true,
+      "blueprintCampo": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "ab172247-db80-4688-b166-78b057d6e71e",
+            "origemId": "46a2c4f0-ce66-4537-b9d7-91d38b9a8483",
+            "destinoId": "3d25bb37-4094-4808-ab0f-87fc669482e9"
+          },
+          {
+            "id": "9f0b519c-c00b-48d1-a1e7-825495638925",
+            "origemId": "3d25bb37-4094-4808-ab0f-87fc669482e9",
+            "destinoId": "ce234e93-ad7d-44a7-9b9e-254118041b28"
+          }
+        ]
+      }
+    },
+    {
+      "id": "39cd1d4c-40c7-468e-bbbd-6dfc6d63ab6d",
+      "nome": "Data de Nascimento",
+      "tipoElemento": "dado",
+      "direcao": "saida",
+      "isRemovable": false,
+      "elements": [
+        {
+          "id": "45bfc7c6-7b0e-4887-9c63-6ae24d495394",
+          "nome": "Input",
+          "tipoElemento": "dado",
+          "direcao": "saida",
+          "dado": "string",
+          "isRemovable": true
+        },
+        {
+          "id": "011db09e-fea1-42b4-85ab-6a80a63cba43",
+          "nome": "Output",
+          "tipoElemento": "dado",
+          "direcao": "entrada",
+          "dado": "string",
+          "isRemovable": true
+        }
+      ],
+      "tipo": "data",
+      "blueprint": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "8bbe0992-0b8f-47de-a0f4-6f7afa63242d",
+            "origemId": "45bfc7c6-7b0e-4887-9c63-6ae24d495394",
+            "destinoId": "011db09e-fea1-42b4-85ab-6a80a63cba43"
+          },
+          {
+            "id": "ac68acae-2311-4668-900b-eec188eefc0b",
+            "origemId": "011db09e-fea1-42b4-85ab-6a80a63cba43",
+            "destinoId": "39cd1d4c-40c7-468e-bbbd-6dfc6d63ab6d"
+          }
+        ]
+      },
+      "obrigatorio": false,
+      "blueprintCampo": {
+        "nodes": [],
+        "conexoes": [
+          {
+            "id": "8bbe0992-0b8f-47de-a0f4-6f7afa63242d",
+            "origemId": "45bfc7c6-7b0e-4887-9c63-6ae24d495394",
+            "destinoId": "011db09e-fea1-42b4-85ab-6a80a63cba43"
+          },
+          {
+            "id": "ac68acae-2311-4668-900b-eec188eefc0b",
+            "origemId": "011db09e-fea1-42b4-85ab-6a80a63cba43",
+            "destinoId": "39cd1d4c-40c7-468e-bbbd-6dfc6d63ab6d"
+          }
+        ]
+      }
+    }
+  ],
+  "tipo": "dado",
+  "blueprint": {
+    "nodes": [
+      {
+        "id": "1a4141bf-a355-4f1d-baaa-7e54cc540dd9",
+        "nome": "Comparar senhas",
+        "tipo": "ifNode",
+        "elementos": [
+          {
+            "id": "f855c556-36e6-491b-afce-85d9ed4193b8",
+            "nome": "Valor 1",
+            "tipoElemento": "dado",
+            "direcao": "entrada",
+            "dado": "string",
+            "isRemovable": true
+          },
+          {
+            "id": "1e731623-a330-4ae1-bda5-e19df4424158",
+            "nome": "Valor 2",
+            "tipoElemento": "dado",
+            "direcao": "entrada",
+            "dado": "string",
+            "isRemovable": true
+          },
+          {
+            "id": "732929d5-8464-4804-89a9-8ece9e1320cf",
+            "nome": "True",
+            "tipoElemento": "dado",
+            "direcao": "saida",
+            "dado": "boolean",
+            "isRemovable": true
+          },
+          {
+            "id": "82024bee-a12c-4c3c-9334-560bf09824c3",
+            "nome": "False",
+            "tipoElemento": "dado",
+            "direcao": "saida",
+            "dado": "boolean",
+            "isRemovable": true
+          },
+          {
+            "id": "876ee06c-f600-4de8-bda9-c640cf0856af",
+            "nome": "Successo",
+            "tipoElemento": "evento",
+            "direcao": "saida",
+            "isRemovable": true
+          },
+          {
+            "id": "448a0350-f11d-4e61-8c8b-fe5a16f89424",
+            "nome": "Error",
+            "tipoElemento": "evento",
+            "direcao": "saida",
+            "isRemovable": true
+          }
+        ],
+        "condicao": "isEqual"
+      },
+      {
+        "id": "edcc3dc4-c9e7-4a6a-b3c9-a85641a70541",
+        "nome": "erro-texto",
+        "tipo": "textoEstatico",
+        "elementos": [
+          {
+            "id": "03f6d658-60f9-4876-993a-fee7311fcfef",
+            "nome": "Texto",
+            "tipoElemento": "dado",
+            "direcao": "saida",
+            "dado": "string",
+            "isRemovable": true
+          }
+        ],
+        "valor": "As senhas não coincidem."
+      },
+      {
+        "id": "cc5cfd95-b65e-4b39-a1fd-a1a88080753c",
+        "nome": "print",
+        "tipo": "print",
+        "elementos": [
+          {
+            "id": "586fad68-91ff-4234-9002-e23e2c4de964",
+            "nome": "Exibir",
+            "tipoElemento": "evento",
+            "direcao": "entrada",
+            "isRemovable": true
+          },
+          {
+            "id": "098e7387-eb34-4068-b98c-ff2c0cc99ca4",
+            "nome": "Texto",
+            "tipoElemento": "dado",
+            "direcao": "entrada",
+            "dado": "string",
+            "isRemovable": true
+          }
+        ]
+      }
+    ],
+    "conexoes": [
+      {
+        "id": "239a92e2-8566-4e0e-bef7-240085e348c9",
+        "origemId": "9aba8913-5903-4cbe-8b3d-2e495be84772",
+        "destinoId": "f855c556-36e6-491b-afce-85d9ed4193b8"
+      },
+      {
+        "id": "47c0b9cd-2eac-40a9-ae3d-e629508e7483",
+        "origemId": "ce234e93-ad7d-44a7-9b9e-254118041b28",
+        "destinoId": "1e731623-a330-4ae1-bda5-e19df4424158"
+      },
+      {
+        "id": "04415190-25d0-4ed6-ab75-6ff4d1f06a75",
+        "origemId": "448a0350-f11d-4e61-8c8b-fe5a16f89424",
+        "destinoId": "586fad68-91ff-4234-9002-e23e2c4de964"
+      },
+      {
+        "id": "cff80cbe-6854-40dd-8b41-e7813b5ee6ab",
+        "origemId": "03f6d658-60f9-4876-993a-fee7311fcfef",
+        "destinoId": "098e7387-eb34-4068-b98c-ff2c0cc99ca4"
+      }
+    ]
+  }
+}

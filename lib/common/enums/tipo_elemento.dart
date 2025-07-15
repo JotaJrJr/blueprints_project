@@ -1,0 +1,1 @@
+enum TipoElemento { evento, dado }
