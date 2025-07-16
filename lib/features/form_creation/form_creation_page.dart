@@ -33,7 +33,7 @@ class _FormCreationPageState extends State<FormCreationPage> {
         blueprint: Blueprint(nodes: [], conexoes: []),
       );
 
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage(formBlueprint: formBlueprint)));
+      Navigator.pushNamed(context, "/home", arguments: formBlueprint);
     }
   }
 

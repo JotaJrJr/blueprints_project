@@ -1,9 +1,8 @@
 import 'package:blueprints_project/features/form_creation/form_creation_page.dart';
+import 'package:blueprints_project/features/home_page/home_page.dart';
+import 'package:blueprints_project/features/home_page/home_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:route_definer/route_definer.dart';
-import 'package:uuid/uuid.dart';
-import 'dart:convert';
 
 import 'external/class.dart';
 
@@ -16,7 +15,13 @@ void main() {
       unauthorizedBuilder: (_, __) => const Scaffold(body: Center(child: Text("Unauthorized"))),
       onUnknownRoute: (_, __) => MaterialPageRoute(builder: (_) => const Scaffold(body: Text("404"))),
     ),
-    [RouteDefiner(path: '/', builder: (_, __) => FormCreationPage())],
+    [
+      RouteDefiner(path: '/', builder: (_, __) => FormCreationPage()),
+      RouteDefiner(
+        path: '/home',
+        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: routeState.arguments as Formulario)),
+      ),
+    ],
   );
 
   runApp(const MyApp());
@@ -31,55 +36,6 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRouter.initialRoute,
       onGenerateRoute: AppRouter.onGenerateRoute,
       onUnknownRoute: AppRouter.onUnknownRoute,
-    );
-  }
-}
-
-class JsonViewerPage extends StatefulWidget {
-  const JsonViewerPage({super.key});
-
-  @override
-  State<JsonViewerPage> createState() => _JsonViewerPageState();
-}
-
-class _JsonViewerPageState extends State<JsonViewerPage> {
-  late String jsonString;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Gerar o formulário
-    final formulario = mockFormularioCriarUsuario();
-
-    // Converter para JSON string formatada
-    jsonString = const JsonEncoder.withIndent('  ').convert(formulario.toJson());
-  }
-
-  void copyToClipboard() {
-    Clipboard.setData(ClipboardData(text: jsonString));
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('JSON copiado para a área de transferência!')));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Visualizador JSON')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(child: SingleChildScrollView(child: SelectableText(jsonString))),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.copy),
-              label: const Text('Copiar JSON'),
-              onPressed: copyToClipboard,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

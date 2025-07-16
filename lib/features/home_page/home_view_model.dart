@@ -10,6 +10,8 @@ import '../../external/class.dart';
 class HomeViewModel extends ChangeNotifier {
   final List<NodeModel> nodes = [];
   final List<EdgeModel> edges = [];
+  final Input input;
+  HomeViewModel({required this.input});
 
   NodeType selectedNodeType = NodeType.entity;
   Color selectedColor = Colors.lightBlueAccent;
@@ -42,25 +44,24 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  void initializeFromBlueprint(Formulario? form) {
-    if (form == null) return;
+  Future<void> init() async {
+    if (input == null) return;
 
     nodes.clear();
     edges.clear();
 
-    for (final element in form.elements) {
-      nodes.add(
-        NodeModel(
-          id: element.id,
-          title: element.nome,
-          type: NodeType.entity,
-          position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
-          color: Colors.blue,
-        ),
-      );
-    }
+    nodes.add(
+      NodeModel(
+        id: input.id,
+        title: input.nome,
+        type: NodeType.entity,
+        fields: input.elements.map((e) => e.nome).toList(),
+        position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
+        color: Colors.blue,
+      ),
+    );
 
-    for (final node in form.blueprint.nodes) {
+    for (final node in input.blueprint.nodes) {
       nodes.add(
         NodeModel(
           id: node.id,
@@ -72,7 +73,7 @@ class HomeViewModel extends ChangeNotifier {
       );
     }
 
-    for (final conexao in form.blueprint.conexoes) {
+    for (final conexao in input.blueprint.conexoes) {
       edges.add(EdgeModel(fromNodeId: conexao.origem, toNodeId: conexao.destino));
     }
 
