@@ -19,7 +19,11 @@ void main() {
       RouteDefiner(path: '/', builder: (_, __) => FormCreationPage()),
       RouteDefiner(
         path: '/home',
-        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: routeState.arguments as Formulario)),
+        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: routeState.arguments as Input)),
+      ),
+      RouteDefiner(
+        path: '/mock',
+        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: mockFormularioCriarUsuario())),
       ),
     ],
   );
