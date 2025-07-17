@@ -1,24 +1,23 @@
-import 'package:blueprints_project/features/home_page/widgets/edge_painter_with_arrows.dart';
+import 'package:blueprints_project/external/class.dart';
 import 'package:blueprints_project/features/home_page/widgets/grid_painter_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/models/node_model.dart';
 import '../../../common/models/edge_model.dart';
-import '../../../common/enums/node_type.dart';
+import '../../../external/ui_node.dart';
 import 'draggable_node_widget.dart';
 
 class BoardCanvasWidget extends StatelessWidget {
   final void Function(String nodeId) onNodeTap;
 
-  final List<NodeModel> nodes;
+  final List<UINode> nodes;
   final List<EdgeModel> edges;
 
-  final NodeType selectedNodeType;
+  final TipoNode selectedNodeType;
   final Color selectedColor;
 
   final AddNodeCallback onAddNode;
   final UpdateNodePositionCallback onNodeDrag;
-  final UpdateNodeContentCallback onNodeContentChanged;
+  //   final UpdateNodeContentCallback onNodeContentChanged;
 
   final String selectedNodeId;
 
@@ -32,7 +31,7 @@ class BoardCanvasWidget extends StatelessWidget {
     required this.selectedColor,
     required this.onAddNode,
     required this.onNodeDrag,
-    required this.onNodeContentChanged,
+    // required this.onNodeContentChanged,
     required this.onNodeTap,
     required this.selectedNodeId,
   });
@@ -48,7 +47,7 @@ class BoardCanvasWidget extends StatelessWidget {
         height: canvasSize,
         child: CustomPaint(
           painter: GridPainterWidget(step: 200),
-          foregroundPainter: EdgePainterWithArrows(nodes: nodes, edges: edges),
+          //   foregroundPainter: EdgePainterWithArrows(nodes: nodes, edges: edges),
           child: Stack(
             children: [
               for (final node in nodes)
@@ -63,8 +62,7 @@ class BoardCanvasWidget extends StatelessWidget {
                       isSelected: node.id == selectedNodeId,
                       node: node,
                       onDrag: (newPos) => onNodeDrag(node.id, newPos),
-                      onTitleChanged: (newTitle) => onNodeContentChanged(node.id, title: newTitle),
-                      onFieldsChanged: (newFields) => onNodeContentChanged(node.id, fields: newFields),
+                      onElementTap: (String elementId) {},
                     ),
                   ),
                 ),
@@ -76,7 +74,7 @@ class BoardCanvasWidget extends StatelessWidget {
   }
 }
 
-typedef AddNodeCallback = void Function(Offset position, NodeType type, Color color);
+typedef AddNodeCallback = void Function(Offset position, TipoNode type, Color color);
 
 typedef UpdateNodePositionCallback = void Function(String nodeId, Offset newPosition);
 

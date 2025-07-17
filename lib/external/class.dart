@@ -1,3 +1,4 @@
+import "package:flutter/material.dart";
 import "package:uuid/uuid.dart";
 
 // Enums
@@ -439,16 +440,15 @@ class RegexNode extends NodeBase {
 
 class TextoEstaticoNode extends NodeBase {
   final String valor;
-
   late final ElementBase output;
 
   TextoEstaticoNode({super.id, required super.nome, required this.valor, List<ElementBase>? elementos})
     : super(
         tipo: TipoNode.textoEstatico,
-        elementos: elementos ?? [Dado(nome: "Texto", dado: TipoDado.string, direcao: DirecaoElemento.saida)],
+        elementos: elementos ?? [Dado(nome: "Output", dado: TipoDado.string, direcao: DirecaoElemento.saida)],
       ) {
     final elems = elementos ?? this.elementos;
-    output = elems.firstWhere((e) => e.nome == "Texto" && e.direcao == DirecaoElemento.saida);
+    output = elems.firstWhere((e) => e.direcao == DirecaoElemento.saida);
   }
 
   factory TextoEstaticoNode.fromJson(Map<String, dynamic> json, List<ElementBase> elementos) {
@@ -790,3 +790,34 @@ class CampoMultiSelect extends CampoBase {
     return CampoMultiSelect(nome: json['nome'], obrigatorio: json['obrigatorio']);
   }
 }
+
+// class UINode {
+//   final NodeBase nodeBase;
+//   Offset position;
+//   Size size;
+//   Color color;
+
+//   UINode({
+//     required this.nodeBase,
+//     required this.position,
+//     this.size = const Size(150, 150),
+//     this.color = Colors.blueAccent,
+//   });
+
+//   String get id => nodeBase.id;
+//   String get title => nodeBase.nome ?? nodeBase.tipo.name;
+//   List<ElementBase> get inputs => nodeBase.elementos.where((e) => e.direcao == DirecaoElemento.entrada).toList();
+//   List<ElementBase> get outputs => nodeBase.elementos.where((e) => e.direcao == DirecaoElemento.saida).toList();
+
+//   Offset getHandlePosition(ElementBase element) {
+//     final isInput = element.direcao == DirecaoElemento.entrada;
+//     final handles = isInput ? inputs : outputs;
+//     final index = handles.indexOf(element);
+//     if (index == -1) return position;
+//     final numHandles = handles.length;
+//     final yStep = size.height / (numHandles + 1);
+//     final x = isInput ? position.dx : position.dx + size.width;
+//     final y = position.dy + yStep * (index + 1);
+//     return Offset(x, y);
+//   }
+// }

@@ -5,9 +5,14 @@ import 'package:blueprints_project/features/home_page/home_view_model.dart';
 import 'package:blueprints_project/features/home_page/view/home_page_desktop.dart';
 import 'package:flutter/material.dart';
 
+import '../form_creation/form_creation_page.dart';
+
 class HomePage extends StatefulWidget {
   final Formulario formBlueprint;
-  const HomePage({super.key, required this.formBlueprint});
+
+  final Map<String, List<FieldDefinition>> nodeFields;
+
+  const HomePage({super.key, required this.formBlueprint, this.nodeFields = const {}});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,10 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     viewModel = HomeViewModel();
-
-    if (widget.formBlueprint != null) {
-      viewModel.initializeFromBlueprint(widget.formBlueprint);
-    }
+    viewModel.initializeFromBlueprint(widget.formBlueprint);
   }
 
   @override

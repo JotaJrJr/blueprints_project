@@ -2,7 +2,6 @@ import 'package:blueprints_project/features/form_creation/form_creation_page.dar
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:route_definer/route_definer.dart';
-import 'package:uuid/uuid.dart';
 import 'dart:convert';
 
 import 'external/class.dart';
@@ -50,10 +49,10 @@ class _JsonViewerPageState extends State<JsonViewerPage> {
     super.initState();
 
     // Gerar o formulário
-    final formulario = mockFormularioCriarUsuario();
+    // final formulario = mockFormularioCriarUsuario();
 
     // Converter para JSON string formatada
-    jsonString = const JsonEncoder.withIndent('  ').convert(formulario.toJson());
+    // jsonString = const JsonEncoder.withIndent('  ').convert(formulario.toJson());
   }
 
   void copyToClipboard() {
@@ -84,66 +83,66 @@ class _JsonViewerPageState extends State<JsonViewerPage> {
   }
 }
 
-Formulario mockFormularioCriarUsuario() {
-  var email = CampoTextoCurto(nome: "Email", obrigatorio: true);
-  var toLower = ToLowerNode();
-  var trim = TrimNode(start: true, end: true);
-  var regex = RegexNode(regex: r"^[^\s@]+@[^\s@]+\.[^\s@]+$");
-  var texto = TextoEstaticoNode(nome: "Mensagem de erro do e-mail", valor: "E-mail inválido");
-  var print = PrintNode(nome: "Exibir erro do e-mail");
+// Formulario mockFormularioCriarUsuario() {
+//   var email = CampoTextoCurto(nome: "Email", obrigatorio: true);
+//   var toLower = ToLowerNode();
+//   var trim = TrimNode(start: true, end: true);
+//   var regex = RegexNode(regex: r"^[^\s@]+@[^\s@]+\.[^\s@]+$");
+//   var texto = TextoEstaticoNode(nome: "Mensagem de erro do e-mail", valor: "E-mail inválido");
+//   var print = PrintNode(nome: "Exibir erro do e-mail");
 
-  email.blueprint.addNode(toLower);
-  email.blueprint.addNode(trim);
-  email.blueprint.addNode(regex);
-  email.blueprint.addNode(texto);
-  email.blueprint.addNode(print);
+//   email.blueprint.addNode(toLower);
+//   email.blueprint.addNode(trim);
+//   email.blueprint.addNode(regex);
+//   email.blueprint.addNode(texto);
+//   email.blueprint.addNode(print);
 
-  // Caminho feliz
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: email.input, destino: toLower.input)!);
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: toLower.output, destino: trim.input)!);
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: trim.output, destino: regex.input)!);
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: regex.output, destino: email.output)!);
+//   // Caminho feliz
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: email.input, destino: toLower.input)!);
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: toLower.output, destino: trim.input)!);
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: trim.output, destino: regex.input)!);
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: regex.output, destino: email.output)!);
 
-  // Caminho ruim (validação falha)
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: texto.output, destino: print.texto)!);
-  email.blueprint.conexoes.add(Conexao.createConexao(origem: regex.error, destino: print.evento)!);
+//   // Caminho ruim (validação falha)
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: texto.output, destino: print.texto)!);
+//   email.blueprint.conexoes.add(Conexao.createConexao(origem: regex.error, destino: print.evento)!);
 
-  // Campos de senha
-  var senha = CampoTextoCurto(nome: "Senha", obrigatorio: true);
-  var repetirSenha = CampoTextoCurto(nome: "Repetir Senha", obrigatorio: true);
+//   // Campos de senha
+//   var senha = CampoTextoCurto(nome: "Senha", obrigatorio: true);
+//   var repetirSenha = CampoTextoCurto(nome: "Repetir Senha", obrigatorio: true);
 
-  // Nó de comparação de senhas
-  var ifNode = IfNode.forCondition(CondicaoIfNode.isEqual, nome: "Comparar senhas");
+//   // Nó de comparação de senhas
+//   var ifNode = IfNode.forCondition(CondicaoIfNode.isEqual, nome: "Comparar senhas");
 
-  // Mensagem e print
-  var msgErro = TextoEstaticoNode(nome: "erro-texto", valor: "As senhas não coincidem.");
-  var mostrarErro = PrintNode(nome: "print");
+//   // Mensagem e print
+//   var msgErro = TextoEstaticoNode(nome: "erro-texto", valor: "As senhas não coincidem.");
+//   var mostrarErro = PrintNode(nome: "print");
 
-  var blueprint = Blueprint(
-    nodes: [ifNode, msgErro, mostrarErro],
-    conexoes: [
-      // Conectando campos ao IfNode
-      Conexao.createConexao(origem: senha.result, destino: ifNode.inputs.elementAt(0))!,
-      Conexao.createConexao(origem: repetirSenha.result, destino: ifNode.inputs.elementAt(1))!,
+//   var blueprint = Blueprint(
+//     nodes: [ifNode, msgErro, mostrarErro],
+//     conexoes: [
+//       // Conectando campos ao IfNode
+//       Conexao.createConexao(origem: senha.result, destino: ifNode.inputs.elementAt(0))!,
+//       Conexao.createConexao(origem: repetirSenha.result, destino: ifNode.inputs.elementAt(1))!,
 
-      // Se falso, exibe erro
-      Conexao.createConexao(origem: ifNode.onError, destino: mostrarErro.evento)!, // "False" evento
-      Conexao.createConexao(origem: msgErro.output, destino: mostrarErro.texto)!,
-    ],
-  );
+//       // Se falso, exibe erro
+//       Conexao.createConexao(origem: ifNode.onError, destino: mostrarErro.evento)!, // "False" evento
+//       Conexao.createConexao(origem: msgErro.output, destino: mostrarErro.texto)!,
+//     ],
+//   );
 
-  return Formulario(
-    objectName: "Usuario",
-    nome: "Criar Usuário",
-    tipo: TipoElemento.dado,
-    direcao: DirecaoElemento.entrada,
-    elements: [
-      CampoTextoCurto(nome: "Nome", obrigatorio: true),
-      email,
-      senha,
-      repetirSenha,
-      CampoData(nome: "Data de Nascimento", obrigatorio: false),
-    ],
-    blueprint: blueprint,
-  );
-}
+//   return Formulario(
+//     objectName: "Usuario",
+//     nome: "Criar Usuário",
+//     tipo: TipoElemento.dado,
+//     direcao: DirecaoElemento.entrada,
+//     elements: [
+//       CampoTextoCurto(nome: "Nome", obrigatorio: true),
+//       email,
+//       senha,
+//       repetirSenha,
+//       CampoData(nome: "Data de Nascimento", obrigatorio: false),
+//     ],
+//     blueprint: blueprint,
+//   );
+// }

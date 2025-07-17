@@ -1,73 +1,32 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
-import '../../common/enums/node_type.dart';
 import '../../common/models/edge_model.dart';
-import '../../common/models/node_model.dart';
 import '../../external/class.dart';
+import '../../external/ui_node.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  final List<NodeModel> nodes = [];
+  final List<UINode> nodes = [];
   final List<EdgeModel> edges = [];
-
-  NodeType selectedNodeType = NodeType.entity;
+  TipoNode selectedNodeType = TipoNode.textoEstatico;
   Color selectedColor = Colors.lightBlueAccent;
-
   bool _isConnectingMode = false;
-
-  String? _pendingConnectionStart;
-
+  String? _pendingConnectionStartElement;
   String? _currentSelectedNodeId;
 
   bool get isConnectingMode => _isConnectingMode;
   String? get currentSelectedNodeId => _currentSelectedNodeId;
 
-  NodeType _convertNodeType(TipoNode tipo) {
-    switch (tipo) {
-      case TipoNode.toLower:
-        return NodeType.entity;
-      case TipoNode.trim:
-        return NodeType.entity;
-      case TipoNode.regex:
-        return NodeType.interface;
-      case TipoNode.textoEstatico:
-        return NodeType.abstractClass;
-      case TipoNode.print:
-        return NodeType.interface;
-      case TipoNode.ifNode:
-        return NodeType.abstractClass;
-      default:
-        return NodeType.entity;
-    }
-  }
-
-  void initializeFromBlueprint(Formulario? form) {
-    if (form == null) return;
-
+  void initializeFromBlueprint(Formulario form) {
     nodes.clear();
     edges.clear();
 
-    for (final element in form.elements) {
-      nodes.add(
-        NodeModel(
-          id: element.id,
-          title: element.nome,
-          type: NodeType.entity,
-          position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
-          color: Colors.blue,
-        ),
-      );
-    }
-
+    // Add form fields as nodes
     for (final node in form.blueprint.nodes) {
       nodes.add(
-        NodeModel(
-          id: node.id,
-          title: node.nome ?? node.tipo.name,
-          type: _convertNodeType(node.tipo),
+        UINode(
           position: Offset(Random().nextDouble() * 500, Random().nextDouble() * 500),
-          color: Colors.green,
+          color: Colors.blue,
+          node: node,
         ),
       );
     }
@@ -84,23 +43,26 @@ class HomeViewModel extends ChangeNotifier {
       selectNode(nodeId);
       return;
     }
+  }
 
-    if (_pendingConnectionStart == null) {
-      _pendingConnectionStart = nodeId;
+  void handleElementTap(String elementId) {
+    if (!_isConnectingMode) return;
+    if (_pendingConnectionStartElement == null) {
+      _pendingConnectionStartElement == elementId;
     } else {
-      addEdge(_pendingConnectionStart!, nodeId);
-      _pendingConnectionStart = null;
+      addEdge(_pendingConnectionStartElement!, elementId);
+      _pendingConnectionStartElement = null;
     }
     notifyListeners();
   }
 
   void setConnectingMode(bool on) {
     _isConnectingMode = on;
-    _pendingConnectionStart = null;
+    _pendingConnectionStartElement = null;
     notifyListeners();
   }
 
-  void setSelectedNodeType(NodeType newType) {
+  void setSelectedNodeType(TipoNode newType) {
     selectedNodeType = newType;
     notifyListeners();
   }
@@ -120,14 +82,32 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addNodeAt(Offset position, NodeType type, Color color) {
-    final node = NodeModel(id: UniqueKey().toString(), position: position, type: type, color: color);
+  void addNodeAt(Offset position, TipoNode type, Color color) {
+    NodeBase nodeBase;
+    switch (type) {
+      case TipoNode.textoEstatico:
+        nodeBase = TextoEstaticoNode(nome: 'New Node', valor: '', elementos: []);
+        break;
+      case TipoNode.print:
+        nodeBase = PrintNode(nome: 'Print');
+        break;
+      case TipoNode.ifNode:
+        nodeBase = IfNode(nome: 'If', condicao: CondicaoIfNode.isEqual);
+        break;
+      case TipoNode.toLower:
+        nodeBase = ToLowerNode();
+        break;
+      case TipoNode.trim:
+        nodeBase = TrimNode(start: true, end: false);
+        break;
+      case TipoNode.regex:
+        nodeBase = RegexNode(regex: '');
+        break;
+      default:
+        nodeBase = TextoEstaticoNode(nome: 'New Node', valor: '', elementos: []);
+    }
+    final node = UINode(position: position, color: color, node: nodeBase);
     nodes.add(node);
-    notifyListeners();
-  }
-
-  void addEdge(String fromNodeId, String toNodeId) {
-    edges.add(EdgeModel(fromNodeId: fromNodeId, toNodeId: toNodeId));
     notifyListeners();
   }
 
@@ -137,24 +117,30 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateNode(String nodeId, {String? title, List<String>? fields}) {
-    final node = nodes.firstWhere((n) => n.id == nodeId);
-    if (title != null) node.title = title;
-    if (fields != null) node.fields = fields;
+  void addEdge(String fromElementId, String toElementId) {
+    edges.add(EdgeModel(fromNodeId: fromElementId, toNodeId: toElementId));
     notifyListeners();
   }
 
-  void removeNode(String nodeId) {
-    nodes.removeWhere((n) => n.id == nodeId);
-    edges.removeWhere((e) => e.fromNodeId == nodeId || e.toNodeId == nodeId);
-    if (_currentSelectedNodeId == nodeId) {
-      _currentSelectedNodeId = null;
+  void updateNode(String nodeId, {String? title, List<ElementBase>? fields}) {
+    final node = nodes.firstWhere((n) => n.id == nodeId);
+    if (title != null) {
+      node.node.nome = title;
+    }
+    if (fields != null) {
+      node.node.elementos = fields;
     }
     notifyListeners();
   }
 
-  void removeEdge(String edgeId) {
-    edges.removeWhere((e) => e.fromNodeId == edgeId || e.toNodeId == edgeId);
-    notifyListeners();
-  }
+  //   void removeNode(String nodeId) {
+  //     nodes.removeWhere((n) => n.id == nodeId);
+  //     edges.removeWhere(
+  //       (e) => nodes.every((n) => n.nodeBase.elementos.every((el) => el.id != e.fromElementId && el.id != e.toElementId)),
+  //     );
+  //     if (_currentSelectedNodeId == nodeId) {
+  //       _currentSelectedNodeId = null;
+  //     }
+  //     notifyListeners();
+  //   }
 }

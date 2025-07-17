@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class HoldToDeleteButtonWidget extends StatefulWidget {
-  final VoidCallback onDelete;
+class HoldToTriggerAction extends StatefulWidget {
+  final VoidCallback onActionTrigger;
   final double size;
   final Color fillColor;
   final Color borderColor;
   final Duration holdDuration;
 
-  const HoldToDeleteButtonWidget({
+  const HoldToTriggerAction({
     super.key,
-    required this.onDelete,
+    required this.onActionTrigger,
     this.size = 24,
     this.fillColor = Colors.redAccent,
     this.borderColor = Colors.black38,
@@ -18,10 +18,10 @@ class HoldToDeleteButtonWidget extends StatefulWidget {
   });
 
   @override
-  State<HoldToDeleteButtonWidget> createState() => _HoldToDeleteButtonWidgetState();
+  State<HoldToTriggerAction> createState() => _HoldToTriggerActionState();
 }
 
-class _HoldToDeleteButtonWidgetState extends State<HoldToDeleteButtonWidget> with SingleTickerProviderStateMixin {
+class _HoldToTriggerActionState extends State<HoldToTriggerAction> with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
   Timer? _timer;
 
@@ -30,7 +30,7 @@ class _HoldToDeleteButtonWidgetState extends State<HoldToDeleteButtonWidget> wit
     super.initState();
     _ctrl = AnimationController(vsync: this, duration: widget.holdDuration)..addStatusListener((s) {
       if (s == AnimationStatus.completed) {
-        widget.onDelete();
+        widget.onActionTrigger();
         _reset();
       }
     });
@@ -79,7 +79,7 @@ class _HoldToDeleteButtonWidgetState extends State<HoldToDeleteButtonWidget> wit
                     border: Border.all(color: widget.borderColor),
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  child: const Center(child: Icon(Icons.delete, size: 16)),
+                  child: const Center(child: Icon(Icons.radio_button_checked, size: 16)),
                 ),
               ],
             );

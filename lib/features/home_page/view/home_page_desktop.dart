@@ -34,11 +34,11 @@ class HomePageDesktop extends StatelessWidget {
                 allNodes: viewModel.nodes,
                 onPrev: viewModel.selectNode,
                 onNext: viewModel.selectNode,
-                onUpdate: (newTitle, newFields) {
-                  if (selectedNodeId != null) {
-                    viewModel.updateNode(selectedNodeId, title: newTitle, fields: newFields);
-                  }
-                },
+                // onUpdate: (newTitle, newFields) {
+                //   if (selectedNodeId != null) {
+                //     viewModel.updateNode(selectedNodeId, title: newTitle, fields: newFields);
+                //   }
+                // },
               );
             },
           ),
@@ -62,7 +62,7 @@ class HomePageDesktop extends StatelessWidget {
                             selectedColor: viewModel.selectedColor,
                             onAddNode: viewModel.addNodeAt,
                             onNodeDrag: viewModel.updateNodePosition,
-                            onNodeContentChanged: viewModel.updateNode,
+                            // onNodeContentChanged: viewModel.updateNode,
                             onNodeTap: viewModel.handleNodeTap,
                             selectedNodeId: viewModel.currentSelectedNodeId ?? '',
                           ),
@@ -87,7 +87,7 @@ class HomePageDesktop extends StatelessWidget {
                           onColorChanged: viewModel.setSelectedColor,
                           onConnectToggled: viewModel.setConnectingMode,
                           onNodeSelected: viewModel.selectNode,
-                          onNodeDeleted: viewModel.removeNode,
+
                           onAddNodeRequest: () {
                             const defaultOffset = Offset(400, 400);
                             viewModel.addNodeAt(defaultOffset, viewModel.selectedNodeType, viewModel.selectedColor);

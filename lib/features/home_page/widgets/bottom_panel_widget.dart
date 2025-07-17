@@ -1,28 +1,28 @@
+import 'package:blueprints_project/external/class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import '../../../common/enums/node_type.dart';
-import '../../../common/models/node_model.dart';
+import '../../../external/ui_node.dart';
 
-typedef NodeTypeChanged = void Function(NodeType newType);
+typedef NodeTypeChanged = void Function(TipoNode newType);
 typedef ColorChanged = void Function(Color newColor);
 typedef NodeSelected = void Function(String nodeId);
-typedef NodeDeleted = void Function(String nodeId);
+
 typedef ConnectToggled = void Function(bool isConnecting);
 typedef AddNodeRequested = void Function();
 
 class BottomPanelWidget extends StatelessWidget {
-  final NodeType selectedNodeType;
+  final TipoNode selectedNodeType;
   final Color selectedColor;
   final bool isConnecting;
   final String? selectedNodeId;
-  final List<NodeModel> nodes;
+  final List<UINode> nodes;
 
   final NodeTypeChanged onTypeChanged;
   final ColorChanged onColorChanged;
   final ConnectToggled onConnectToggled;
   final NodeSelected onNodeSelected;
-  final NodeDeleted onNodeDeleted;
+
   final AddNodeRequested onAddNodeRequest;
 
   const BottomPanelWidget({
@@ -36,7 +36,7 @@ class BottomPanelWidget extends StatelessWidget {
     required this.onColorChanged,
     required this.onConnectToggled,
     required this.onNodeSelected,
-    required this.onNodeDeleted,
+
     required this.onAddNodeRequest,
   });
 
@@ -49,37 +49,8 @@ class BottomPanelWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              DropdownButton<NodeType>(
-                value: selectedNodeType,
-                items:
-                    NodeType.values
-                        .map((t) => DropdownMenuItem(value: t, child: Text(t.toString().split('.').last)))
-                        .toList(),
-                onChanged: (newType) {
-                  if (newType != null) onTypeChanged(newType);
-                },
-              ),
-              const SizedBox(width: 16),
-              GestureDetector(
-                onTap: () => _showColorPickerDialog(context),
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(color: selectedColor, shape: BoxShape.circle, border: Border.all()),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Row(children: [const Text("Connect"), Switch(value: isConnecting, onChanged: onConnectToggled)]),
-              const SizedBox(width: 16),
-              ElevatedButton.icon(
-                onPressed: onAddNodeRequest,
-                icon: const Icon(Icons.add),
-                label: const Text("Add Node"),
-              ),
-            ],
-          ),
+          Row(children: [const Text("Connect"), Switch(value: isConnecting, onChanged: onConnectToggled)]),
+
           const SizedBox(height: 12),
           SizedBox(
             height: 40,
@@ -92,7 +63,10 @@ class BottomPanelWidget extends StatelessWidget {
                 final isSelected = node.id == selectedNodeId;
                 return GestureDetector(
                   onTap: () => onNodeSelected(node.id),
-                  onLongPress: () => onNodeDeleted(node.id),
+                  //   onLongPress: () => onNodeDeleted(node.id),
+                  onLongPress: () {
+                    debugPrint('long tap');
+                  },
                   child: Chip(
                     label: Text(
                       node.title.isEmpty ? "(no title)" : node.title,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../../../common/models/edge_model.dart';
-import '../../../common/models/node_model.dart';
+import '../../../external/ui_node.dart';
 
 class EdgePainter extends CustomPainter {
-  final List<NodeModel> nodes;
+  final List<UINode> nodes;
   final List<EdgeModel> edges;
 
   EdgePainter({required this.nodes, required this.edges});

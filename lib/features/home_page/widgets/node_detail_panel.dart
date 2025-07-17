@@ -1,16 +1,18 @@
+import 'package:blueprints_project/external/class.dart';
 import 'package:flutter/material.dart';
-import '../../../common/models/node_model.dart';
 import 'package:blueprints_project/features/home_page/widgets/hold_to_delete_button_widget.dart';
+
+import '../../../external/ui_node.dart';
 
 typedef NodeNavigate = void Function(String targetNodeId);
 typedef AttributeUpdate = void Function(String title, List<String> fields);
 
 class NodeDetailPanel extends StatelessWidget {
-  final NodeModel? selectedNode;
-  final List<NodeModel> allNodes;
+  final UINode? selectedNode;
+  final List<UINode> allNodes;
   final NodeNavigate onPrev;
   final NodeNavigate onNext;
-  final AttributeUpdate onUpdate;
+  //   final AttributeUpdate onUpdate;
 
   const NodeDetailPanel({
     super.key,
@@ -18,7 +20,7 @@ class NodeDetailPanel extends StatelessWidget {
     required this.allNodes,
     required this.onPrev,
     required this.onNext,
-    required this.onUpdate,
+    // required this.onUpdate,
   });
 
   @override
@@ -27,13 +29,22 @@ class NodeDetailPanel extends StatelessWidget {
       return Container(width: 250, color: Colors.grey.shade50, child: const Center(child: Text('No node selected')));
     }
 
+    // final node = selectedNode!;
+    // final index = allNodes.indexWhere((n) => n.id == node.id);
+    // final hasPrev = index > 0;
+    // final hasNext = index < allNodes.length - 1;
+
+    // final title = node.title;
+    // // final fields = List<String>.from(node.node.nome ?? '');
+    // final elements = node
+
     final node = selectedNode!;
     final index = allNodes.indexWhere((n) => n.id == node.id);
     final hasPrev = index > 0;
     final hasNext = index < allNodes.length - 1;
 
-    final title = node.title;
-    final fields = List<String>.from(node.fields);
+    final title = node.node.nome;
+    final fields = node.node.elementos;
 
     return Container(
       width: 250,
@@ -73,7 +84,7 @@ class NodeDetailPanel extends StatelessWidget {
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
-                Text(node.type.toString().split('.').last, style: const TextStyle(fontSize: 12)),
+                Text(node.node.tipo.toString().split('.').last, style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),
@@ -89,7 +100,7 @@ class NodeDetailPanel extends StatelessWidget {
                   initialValue: title,
                   decoration: const InputDecoration(border: OutlineInputBorder()),
                   onChanged: (newTitle) {
-                    onUpdate(newTitle, fields);
+                    // onUpdate(newTitle, fields);
                   },
                 ),
                 const SizedBox(height: 12),
@@ -103,44 +114,42 @@ class NodeDetailPanel extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            key: ValueKey('field-${node.id}-$i-${fields[i]}'),
-                            initialValue: fields[i],
+                            key: ValueKey('field-${node.id}-$i-${fields[i].nome}'),
+                            initialValue: fields[i].nome,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               labelText: 'Field ${i + 1}',
                             ),
                             onChanged: (newValue) {
                               final newFields = List<String>.from(fields)..[i] = newValue;
-                              onUpdate(title, newFields);
+                              //   onUpdate(title, newFields);
                             },
                           ),
                         ),
                         const SizedBox(width: 8),
-                        HoldToDeleteButtonWidget(
-                          onDelete: () {
+                        HoldToTriggerAction(
+                          onActionTrigger: () {
                             final newFields = List<String>.from(fields)..removeAt(i);
-                            onUpdate(title, newFields);
+                            // onUpdate(title, newFields);
                           },
                         ),
                       ],
                     ),
                   ),
-
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () {
-                      final newFields = List<String>.from(fields)..add('');
-                      onUpdate(title, newFields);
-                    },
-                    child: const Text('+ Add Field'),
-                  ),
-                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  ElementBase _updateElementName(ElementBase element, String newName) {
+    if (element is Dado) {
+      return Dado(id: element.id, nome: newName, direcao: element.direcao, dado: element.dado);
+    } else if (element is Event) {
+      return Event(id: element.id, nome: newName, direcao: element.direcao);
+    }
+    return element; // Default case, extend for other ElementBase types as needed
   }
 }
