@@ -22,8 +22,10 @@ class DraggableNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderColor = node.color.withOpacity(isSelected ? 1 : 0.3);
     final borderWidth = isSelected ? 3.0 : 1.0;
-    final nodeBase = node.node is NodeBase ? node.node as NodeBase : null;
-    final fieldType = node.node is CampoBase ? (node.node as CampoBase).fieldType.name : null;
+    // final nodeBase = node.node is NodeBase ? node.node as NodeBase : null;
+    // final fieldType = node.node is CampoBase ? (node.node as CampoBase).fieldType.name : null;
+
+    List<String> tipoConexoes = TipoNode.values.map((e) => e.name).toList();
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -52,16 +54,44 @@ class DraggableNodeWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        HoldToTriggerAction(onActionTrigger: () {}),
+                        // Conexão de entrada (se precisar)
+                        PopupMenuButton<String>(
+                          icon: Icon(Icons.radio_button_unchecked),
+                          onSelected: (choice) {},
+                          itemBuilder:
+                              (_) => [
+                                PopupMenuItem(value: 'connect', child: Text('Conectar')),
+                                PopupMenuItem(value: 'delete', child: Text('Excluir')),
+                              ],
+                        ),
+
                         Text(output.nome),
 
-                        HoldToTriggerAction(onActionTrigger: () {}),
+                        PopupMenuButton<String>(
+                          icon: Icon(Icons.radio_button_unchecked),
+                          onSelected: (choice) => onElementTap(choice),
+                          itemBuilder: (_) {
+                            return TipoNode.values
+                                .map((e) => PopupMenuItem<String>(value: e.name, child: Text(e.name)))
+                                .toList()
+                              ..add(PopupMenuItem<String>(value: 'delete', child: Text("Deletar")));
+                          },
+                        ),
                       ],
                     ),
-                  // Text(
-                  //   '  • ${output.nome} (${(output is Dado) ? output.dado.name : 'event'})',
-                  //   style: TextStyle(fontSize: 12),
-                  // ),
+
+                  //   for (var output in node.outputs)
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //       children: [
+                  //         // HoldToTriggerAction(onActionTrigger: () {}),
+                  //         IconButton(onPressed: () {}, icon: Icon(Icons.radio_button_checked)),
+                  //         Text(output.nome),
+                  //         IconButton(onPressed: () {}, icon: Icon(Icons.radio_button_checked)),
+
+                  //         // HoldToTriggerAction(onActionTrigger: () {}),
+                  //       ],
+                  //     ),
                 ],
               ],
             ),

@@ -96,6 +96,7 @@ class NodeDetailPanel extends StatelessWidget {
               children: [
                 const Text('Title', style: TextStyle(fontWeight: FontWeight.bold)),
                 TextFormField(
+                  readOnly: true,
                   key: ValueKey('title-${node.id}-$title'),
                   initialValue: title,
                   decoration: const InputDecoration(border: OutlineInputBorder()),
@@ -114,6 +115,7 @@ class NodeDetailPanel extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            readOnly: true,
                             key: ValueKey('field-${node.id}-$i-${fields[i].nome}'),
                             initialValue: fields[i].nome,
                             decoration: InputDecoration(
@@ -150,6 +152,6 @@ class NodeDetailPanel extends StatelessWidget {
     } else if (element is Event) {
       return Event(id: element.id, nome: newName, direcao: element.direcao);
     }
-    return element; // Default case, extend for other ElementBase types as needed
+    return element;
   }
 }

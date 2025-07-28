@@ -34,11 +34,6 @@ class HomePageDesktop extends StatelessWidget {
                 allNodes: viewModel.nodes,
                 onPrev: viewModel.selectNode,
                 onNext: viewModel.selectNode,
-                // onUpdate: (newTitle, newFields) {
-                //   if (selectedNodeId != null) {
-                //     viewModel.updateNode(selectedNodeId, title: newTitle, fields: newFields);
-                //   }
-                // },
               );
             },
           ),

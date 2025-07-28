@@ -46,39 +46,31 @@ class BottomPanelWidget extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       color: Colors.grey.shade200,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(children: [const Text("Connect"), Switch(value: isConnecting, onChanged: onConnectToggled)]),
-
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 40,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: nodes.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (ctx, i) {
-                final node = nodes[i];
-                final isSelected = node.id == selectedNodeId;
-                return GestureDetector(
-                  onTap: () => onNodeSelected(node.id),
-                  //   onLongPress: () => onNodeDeleted(node.id),
-                  onLongPress: () {
-                    debugPrint('long tap');
-                  },
-                  child: Chip(
-                    label: Text(
-                      node.title.isEmpty ? "(no title)" : node.title,
-                      style: TextStyle(color: isSelected ? Colors.white : Colors.black),
-                    ),
-                    backgroundColor: isSelected ? Colors.blueAccent : Colors.grey[300],
-                  ),
-                );
+      child: SizedBox(
+        height: 40,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: nodes.length,
+          separatorBuilder: (_, __) => const SizedBox(width: 8),
+          itemBuilder: (ctx, i) {
+            final node = nodes[i];
+            final isSelected = node.id == selectedNodeId;
+            return GestureDetector(
+              onTap: () => onNodeSelected(node.id),
+              //   onLongPress: () => onNodeDeleted(node.id),
+              onLongPress: () {
+                debugPrint('long tap');
               },
-            ),
-          ),
-        ],
+              child: Chip(
+                label: Text(
+                  node.title.isEmpty ? "(no title)" : node.title,
+                  style: TextStyle(color: isSelected ? Colors.white : Colors.black),
+                ),
+                backgroundColor: isSelected ? Colors.blueAccent : Colors.grey[300],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

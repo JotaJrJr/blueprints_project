@@ -13,7 +13,7 @@ class FormCreationPage extends StatefulWidget {
 class _FormCreationPageState extends State<FormCreationPage> {
   final _formKey = GlobalKey<FormState>();
   String _formName = '';
-  final List<NodeDefinition> _nodes = [];
+  List<NodeDefinition> _nodes = [];
 
   void _addNode() {
     setState(() {
@@ -155,36 +155,72 @@ class _FormCreationPageState extends State<FormCreationPage> {
               ElevatedButton(onPressed: () => _addNode(), child: const Text('Add Node')),
               const SizedBox(height: 8),
 
-              //   ElevatedButton(
-              //     // onPressed: _nodes.any((n) => n.fields.isNotEmpty) ? _navigateToCanvas : null,
-              //     onPressed: () {
-              //       if (_nodes.any((n) => n.fields.isNotEmpty)) {
-              //         _navigateToCanvas();
-              //       } else {
-              //         ScaffoldMessenger.of(
-              //           context,
-              //         ).showSnackBar(const SnackBar(content: Text('Add at least one field to a node')));
-              //       }
-              //     },
-              //     child: const Text('Open Canvas'),
-              //   ),
-              ElevatedButton(
-                onPressed: () {
-                  print('Nodes: ${_nodes.length}');
-                  for (var node in _nodes) {
-                    print('Node ${node.name}: ${node.fields.length} fields');
-                  }
-                  if (_nodes.any((n) => n.fields.isNotEmpty)) {
-                    print('Condition true, calling _navigateToCanvas');
-                    _navigateToCanvas();
-                  } else {
-                    print('Condition false, showing SnackBar');
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(const SnackBar(content: Text('Add at least one field to a node')));
-                  }
-                },
-                child: const Text('Open Canvas'),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      print('Nodes: ${_nodes.length}');
+                      for (var node in _nodes) {
+                        print('Node ${node.name}: ${node.fields.length} fields');
+                      }
+                      if (_nodes.any((n) => n.fields.isNotEmpty)) {
+                        print('Condition true, calling _navigateToCanvas');
+                        _navigateToCanvas();
+                      } else {
+                        print('Condition false, showing SnackBar');
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(const SnackBar(content: Text('Add at least one field to a node')));
+                      }
+                    },
+                    child: const Text('Open Canvas'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _nodes = [
+                        NodeDefinition(
+                          name: 'Node 1',
+                          fields: [
+                            FieldDefinition(name: 'Field 1', type: TipoCampo.inteiro),
+                            FieldDefinition(name: 'Field 2', type: TipoCampo.textoCurto),
+                            FieldDefinition(name: 'Field 3', type: TipoCampo.textoLongo),
+                          ],
+                        ),
+                        NodeDefinition(
+                          name: 'Node 2',
+                          fields: [
+                            FieldDefinition(name: 'Field 1', type: TipoCampo.inteiro),
+                            FieldDefinition(name: 'Field 2', type: TipoCampo.textoCurto),
+                            FieldDefinition(name: 'Field 3', type: TipoCampo.textoLongo),
+                          ],
+                        ),
+                        NodeDefinition(
+                          name: 'Node 3',
+                          fields: [
+                            FieldDefinition(name: 'Field 1', type: TipoCampo.inteiro),
+                            FieldDefinition(name: 'Field 2', type: TipoCampo.textoCurto),
+                            FieldDefinition(name: 'Field 3', type: TipoCampo.textoLongo),
+                          ],
+                        ),
+                      ];
+
+                      print('Nodes: ${_nodes.length}');
+                      for (var node in _nodes) {
+                        print('Node ${node.name}: ${node.fields.length} fields');
+                      }
+                      if (_nodes.any((n) => n.fields.isNotEmpty)) {
+                        print('Condition true, calling _navigateToCanvas');
+                        _navigateToCanvas();
+                      } else {
+                        print('Condition false, showing SnackBar');
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(const SnackBar(content: Text('Add at least one field to a node')));
+                      }
+                    },
+                    child: const Text('Open Canvas Mais Fácil'),
+                  ),
+                ],
               ),
             ],
           ),
