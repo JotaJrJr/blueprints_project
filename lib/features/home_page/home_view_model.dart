@@ -31,7 +31,7 @@ class HomeViewModel extends ChangeNotifier {
       );
     }
 
-    for (final conexao in form.blueprint.conexoes) {
+    for (final conexao in input.blueprint.conexoes) {
       edges.add(EdgeModel(fromNodeId: conexao.origem, toNodeId: conexao.destino));
     }
 

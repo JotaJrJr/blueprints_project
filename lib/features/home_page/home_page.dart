@@ -30,9 +30,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewLayoutManager<HomeViewModel>(
-      pages: {DeviceType.desktop: (model) => HomePageDesktop(viewModel: viewModel)},
-      viewModel: viewModel,
+    return FutureBuilder(
+      future: viewModel.init(),
+      builder: (context, asyncSnapshot) {
+        return ViewLayoutManager<HomeViewModel>(
+          pages: {DeviceType.desktop: (model) => HomePageDesktop(viewModel: viewModel)},
+          viewModel: viewModel,
+        );
+      },
     );
   }
 }

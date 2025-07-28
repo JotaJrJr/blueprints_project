@@ -1,6 +1,7 @@
 import 'package:blueprints_project/features/form_creation/form_creation_page.dart';
+import 'package:blueprints_project/features/home_page/home_page.dart';
+import 'package:blueprints_project/features/home_page/home_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:route_definer/route_definer.dart';
 import 'dart:convert';
 
@@ -15,7 +16,17 @@ void main() {
       unauthorizedBuilder: (_, __) => const Scaffold(body: Center(child: Text("Unauthorized"))),
       onUnknownRoute: (_, __) => MaterialPageRoute(builder: (_) => const Scaffold(body: Text("404"))),
     ),
-    [RouteDefiner(path: '/', builder: (_, __) => FormCreationPage())],
+    [
+      RouteDefiner(path: '/', builder: (_, __) => FormCreationPage()),
+      RouteDefiner(
+        path: '/home',
+        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: routeState.arguments as Input)),
+      ),
+      RouteDefiner(
+        path: '/mock',
+        builder: (_, routeState) => HomePage(viewModel: HomeViewModel(input: mockFormularioCriarUsuario())),
+      ),
+    ],
   );
 
   runApp(const MyApp());
@@ -34,9 +45,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class JsonViewerPage extends StatefulWidget {
   const JsonViewerPage({super.key});
-
   @override
   State<JsonViewerPage> createState() => _JsonViewerPageState();
 }
@@ -90,9 +101,9 @@ class _JsonViewerPageState extends State<JsonViewerPage> {
 //   var regex = RegexNode(regex: r"^[^\s@]+@[^\s@]+\.[^\s@]+$");
 //   var texto = TextoEstaticoNode(nome: "Mensagem de erro do e-mail", valor: "E-mail inválido");
 //   var print = PrintNode(nome: "Exibir erro do e-mail");
-
-//   email.blueprint.addNode(toLower);
-//   email.blueprint.addNode(trim);
+=======
+Formulario mockFormularioCriarUsuario() {
+  var email = CampoTextoCurto(nome: "Email", obrigatorio: true);
 //   email.blueprint.addNode(regex);
 //   email.blueprint.addNode(texto);
 //   email.blueprint.addNode(print);
